@@ -1,4 +1,4 @@
-title: "My Awesome Blog"  # 블로그 제목
+title: "Growing with Me"  # 블로그 제목
 author: "MyeongALyeong"   # 작성자
 description: "Welcome to my GitHub Pages blog!"  # 블로그 설명
-theme: jekyll-theme-minimal  # 원하는 테마 (예: minima, hacker, slate 등)
+theme: jekyll-theme-cayman  # 원하는 테마 (예: minima, hacker, slate 등)

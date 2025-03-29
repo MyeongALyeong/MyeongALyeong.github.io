@@ -1,3 +1,6 @@
+# 조건문과 반복문 _ Chap 04<br><br><br><br>
+
+
 # 🔄 자바 조건문 정복 - if문 & switch문
 
 > 🏷️ Tags: `Java`, `조건문`, `if`, `switch`, `Math.random`, `Week2`
@@ -12,6 +15,7 @@
 - 자바의 기본 반복문 3종류 이해하기
 - 반복 제어문 break / continue 사용법 익히기
 - 상황별 반복문 선택 기준 알기
+- 연습 문제 풀어보기
 
 
 ---
@@ -309,6 +313,30 @@ for (int i = 1; i <= 5; i++) {
 5
 
 ```
+
+---
+## 연습문제
+
+### 📍 4강 연습문제 6번
+![연습문제 6번](https://github.com/user-attachments/assets/2e49c2e2-75ca-488b-a169-59a075a4eb08)
+- 바깥 반복문 (x): 줄 수 제어 (총 4줄 출력)
+- 첫 번째 안쪽 반복문 (z): 공백 출력
+- 두 번째 안쪽 반복문 (y): 별 출력
+
+✅ 출력 문자의 시작지점과 끝 지점을 바깥 반복문의 반복 변수인 x와 연결지어서 규칙화하기
+
+---<br><br>
+
+### 📍 4강 연습문제 7번
+![연습문제 7번](https://github.com/user-attachments/assets/b556e72d-0487-43d2-b12c-77c09d8a2b51)
+![7번 실행 결과](https://github.com/user-attachments/assets/e5fe376a-1862-4826-81f1-d3e09979c6ae)
+
+
+
+- 반복문 구조: 반복 횟수가 정해지지 않았기 때문에 while문 사용 -> 무한 반복
+- 특정 입력값이 들어오면 switch문을 통해 break 사용하여 while문 종료
+- Scanner를 사용해 사용자의 숫자 입력을 받음
+- switch문으로 사용자가 입력한 숫자에 따라 서로 다른 코드 실행
 
 
 

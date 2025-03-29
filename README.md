@@ -7,5 +7,5 @@
 ## 📑 글 목록
 
 - [Week 1: ]
-- [Week 2: 조건문과 반복문](./Week02_condition_loop.md)
-- [Week 2: 참조 타입과 참조 변수](./Week02_reference_type.md)
+- [Week 2_1: 조건문과 반복문](./Week02_condition_loop.md)
+- [Week 2_2: 참조 타입과 참조 변수](./Week02_reference_type.md)

@@ -9,198 +9,163 @@
 
 ### 🎯 인터페이스 선언
 
-| 접근 제한자 | 같은 패키지 | 다른 패키지 |
-|----------------|----------------|----------------|
-| `public`       | ✅ 가능     | ✅ 가능     |
-| `protected`    | ✅ 가능     | ✅ 가능     |
-| (default)      | ✅ 가능     | ❌ 불가능  |
-| `private`      | ❌ 불가능  | ❌ 불가능  |
-
----
-<br>
-
-#### 예제 문제 - 기본 상속
-![image](https://github.com/user-attachments/assets/64bd7b93-9ec1-4785-adcf-c7d018d59e63)
-![image](https://github.com/user-attachments/assets/43874835-cd88-4225-adc6-47bf5e09b25c)
-![image](https://github.com/user-attachments/assets/5e72638b-781a-4d1a-85ab-2a87f02e8faf)
-
-<br>
-
-### 👨‍👩‍👧 부모 생성자 호출
-
-- 자식 객체를 생성하면 **부모 객체 먼저 호출**
-- 자식 생성자에서 부모 생성자를 명시화: `super(...)`
-
 ```java
-class Parent {
-    Parent(String msg) {
-        System.out.println("Parent 생성자: " + msg);
-    }
-}
-
-class Child extends Parent {
-    Child() {
-        super("부모에게 전달할 메시지");
-        System.out.println("Child 생성자");
-    }
+// Drawable.java
+public interface Drawable {
+    /** 도형을 그리는 동작을 정의 */
+    void draw();
 }
 ```
 
-#### 부모에 기본 생성자가 없고 메가번수 생성자만 있는 경우:
-
-```java
-class Parent {
-    Parent(String name) {
-        System.out.println("Hello " + name);
-    }
-}
-
-class Child extends Parent {
-    Child(String name) {
-        super(name); // 마지막에서가 아니라 첫 줄에 위치
-    }
-}
-```
-
-#### `super()` vs `super.`
-
-| 구단        | 설명                          |
-|-------------|---------------------------------|
-| `super()`   | 부모 클래스의 생성자 호출   |
-| `super.`    | 부모 클래스의 메소드/필드 호출 |
-
----
+<br>
 <br>
 
-#### super() 예제
-![image](https://github.com/user-attachments/assets/90b1ef1d-ab9e-4496-beff-641b6b8f4f5e)
-
-
-<br>
-
-### ✏️ 메소드 오버라이드 & `super` 사용
+### ✏️ 인터페이스 구현
+- implements 키워드 뒤에 인터페이스 이름을 나열
+- 인터페이스에 선언된 모든 추상 메서드를 오버라이드(재정의)해야 함
+- 클래스 내부에서 인터페이스를 구현하면, 그 클래스는 “Drawable을 구현하는 Circle”이 되어 draw() 메서드를 사용할 수 있음
 
 ```java
-class Parent {
-    void greet() {
-        System.out.println("Hello from Parent");
-    }
-}
+// Circle.java
+public class Circle implements Drawable {
+    private double radius;
 
-class Child extends Parent {
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
     @Override
-    void greet() {
-        super.greet();
-        System.out.println("Hello from Child");
+    public void draw() {
+        System.out.println("🔵 반지름 " + radius + "인 원을 그립니다.");
+    }
+    
+    public double getRadius() {
+        return radius;
     }
 }
 ```
 <br>
-#### 메소드 오버라이딩 예제
-![image](https://github.com/user-attachments/assets/b21d05fd-dc20-4d21-8f50-38566cd17d1c)
-
 <br>
----
 
+### ✏️ 인터페이스 사용
+```java
+// Main.java
+public class Main {
+    public static void main(String[] args) {
+        Drawable shape = new Circle(3.5);  // 인터페이스 타입으로 업캐스팅
+        shape.draw();                     // 🔵 반지름 3.5인 원을 그립니다.
+    }
+}
 ```
-<br>
-#### super. 예제
-![image](https://github.com/user-attachments/assets/701134a6-75fb-4ff2-a930-0dc677772a8f)
+[업캐스팅]
+- Circle 객체를 Drawable 타입 변수에 할당
+- 컴파일 시점에는 shape가 Drawable이라는 공통 인터페이스만 알지만, 실행 시점에는 실제 Circle의 draw()가 호출
+- 구현체를 바꾸면 코드를 전혀 수정하지 않고 다양한 도형을 동일하게 처리 가능
 
-
 <br>
+<br>
+
 ---
-## 🧬 07-2. 타입 변환과 다형성
+## 🧬 08-2. 타입 변환과 다형성
 
 ### 🔄 자동 타입 변환 (Upcasting)
 
 ```java
-Parent p = new Child();
-p.greet();  // 자식의 오버라이드 메소드 호출
+Drawable d = new Circle(2.0);  // Circle → Drawable (업캐스팅)
 ```
+자동 형변환(업케스팅)
+- 자식 클래스(Circle) 타입을 부모 인터페이스(Drawable) 타입으로 변환
+- 명시적 캐스팅 없이 컴파일러가 자동으로 처리
+- 다형성의 핵심: 구체 구현체에 관계없이 인터페이스를 통해 통일된 방식으로 접근
 
-### 🧪 필드와 메가리바수의 다형성
+<br>
+<br>
+
+### 🧪 필드의 다형성
 
 ```java
-class Animal {
-    void sound() {
-        System.out.println("동물 소리");
+
+// Painter.java
+public class Painter {
+    private Drawable tool;      // 어떤 Drawable이든 담을 수 있는 필드
+
+    public Painter(Drawable tool) {
+        this.tool = tool;
+    }
+
+    public void paint() {
+        tool.draw();
     }
 }
 
-class Dog extends Animal {
-    @Override
-    void sound() {
-        System.out.println("몬몬");
-    }
-}
-
-class Zoo {
-    void makeSound(Animal a) {
-        a.sound();
-    }
-}
+// 사용 예
+Painter p = new Painter(new Circle(1.5));
+p.paint();  // 🔵 반지름 1.5인 원을 그립니다.
 ```
+- 클래스 내부의 멤버 변수로 인터페이스 타입을 선언
+- 생성자나 세터(setter)를 통해 다양한 구현체(Circle, Rectangle, Triangle 등)를 주입 가능
+- Painter 클래스는 구체 타입에 무관하게 모든 Drawable을 다룰 수 있음
 
 ---
 
-### 🔁 강제 타입 변환 (Downcasting)
+### 🔁 매개 변수의 다형성
 
 ```java
-Animal a = new Dog();
-
-if (a instanceof Dog) {
-    Dog d = (Dog) a;
-    d.sound();
+// Renderer.java
+public class Renderer {
+    public void render(Drawable d) {
+        d.draw();
+    }
 }
+
+// 사용 예
+Renderer r = new Renderer();
+r.render(new Circle(4.0));  // 🔵 반지름 4.0인 원을 그립니다.
 ```
+- 메서드 파라미터를 인터페이스 타입으로 선언
+- 어떤 구현체 객체를 전달하더라도 일관된 인터페이스 메서드(draw()) 호출로 처리
+- 새로운 도형 클래스가 추가되어도 render() 메서드는 그대로 재사용 가능
 
 ---
 
-## 🧱 07-3. 추사 클래스
+### 📌 강제 타입 변환(Downcasting)
 
-### 📌 추사 클래스의 용도
-
-- 공통 기본 형태와 기능 설정
-- 객체 생성 특정: ❌
-
-### ✍️ 선언 예시
 
 ```java
-abstract class Animal {
-    abstract void sound();
-}
-
-class Cat extends Animal {
-    @Override
-    void sound() {
-        System.out.println("야옴");
-    }
+Drawable d = new Circle(5.0);
+if (d instanceof Circle) {
+    Circle c = (Circle) d;      // 다운캐스팅
+    System.out.println("반지름: " + c.getRadius());
 }
 ```
 
-```java
-Animal a = new Cat(); // O
-Animal b = new Animal(); // X
-```
-### 🧐 추사 메소드의 중요 특징
-
-- 추사 메소드는 구현되지 않은 메소드이며, 자식 클래스에서 결과를 가지고 구현 되어야 한다.
-- 추사 클래스가 자식에게 결과 제공을 건지하고, 자식은 여러 것을 경우에 따라 다양한 변화(다형성)를 보여줄 수 있다.
-- 하위 클래스가 추사 메소드를 구현하지 않은 경우, **컴포저 오류**가 발생할 수 있다.
-- 예:
-
-```java
-abstract class Machine {
-    abstract void operate();
-}
-
-class Printer extends Machine {
-    @Override
-    void operate() {
-        System.out.println("Printing...");
-    }
-}
-```
+- 인터페이스 타입 변수(Drawable)를 구체 클래스(Circle) 타입으로 변환
+- 인터페이스에는 없는 고유 메서드(getRadius())를 사용하기 위해 필요
+- 잘못된 타입으로 캐스팅 시 ClassCastException 발생하므로, instanceof로 타입 검사 후 안전하게 수행
 
 ---
+
+### 🧐 객체 타입 확인 (instanceof)
+
+
+```java
+if (d instanceof Circle) {
+    System.out.println("이 객체는 Circle입니다.");
+} else {
+    System.out.println("Circle이 아닙니다.");
+}
+```
+[instanceof 연산자]
+- 런타임에 실제 객체가 특정 클래스나 인터페이스를 구현했는지 검사
+- 다운캐스팅 전 사전 체크로 사용
+- Boolean 값을 반환
+
+---
+#### (1) instanceof 예제
+![image](https://github.com/user-attachments/assets/e34399a0-db1e-4f28-b78d-c3f1ea1d69cb)
+
+---
+
+#### (2) interface 예제
+![image](https://github.com/user-attachments/assets/eb082666-f4be-4580-b365-63ebb592e864)
+

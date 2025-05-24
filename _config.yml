@@ -1,6 +1,6 @@
 # _config.yml
-title: "Java Study Blog"
-description: "자바 언어 이론과 실습 정리용 기술 블로그"
-baseurl: "/MyeongALyeong.github.io"
+title: "개발 스터디"
+description: "Java & Cloud 스터디 노트 포털"
 url: "https://MyeongALyeong.github.io"
-theme: minima
+baseurl: "/"       # 사용자 페이지는 최상위라 슬래시만
+theme: minima      # GitHub Pages 기본테마
